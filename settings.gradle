@@ -1,0 +1,3 @@
+rootProject.name='fpnnsdk-dmo'
+include ':app'
+include ':fpnnsdk'
