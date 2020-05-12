@@ -59,6 +59,77 @@ public class Message {
         return o;
     }
 
+
+    public String getString(String key) {
+        Object o = get(key);
+        return (o == null)? "" :String.valueOf(o);
+    }
+
+    public int getInt(String key) {
+        Object o = get(key);
+        if (o != null)
+            return wantInt(key);
+        return 0;
+    }
+
+    public long getLong(String key) {
+        Object o = get(key);
+        if (o != null)
+            return wantLong(key);
+        return 0;
+    }
+
+    public boolean wantBoolean(String key) {
+        Object obj = want(key);
+        return (obj == null)? false :(Boolean)obj;
+    }
+
+    public boolean getBoolean(String key) {
+        Object obj = get(key);
+        return (obj == null)? false :(Boolean)obj;
+    }
+
+    public int wantInt(String key) {
+        int value = -1;
+        Object obj = want(key);
+        if (obj instanceof Integer)
+            value = (Integer) obj;
+        else if (obj instanceof Long)
+            value = ((Long) obj).intValue();
+        else if (obj instanceof BigInteger)
+            value = ((BigInteger) obj).intValue();
+        else if (obj instanceof Short)
+            value = ((Short) obj).intValue();
+        else if (obj instanceof Byte)
+            value = ((Byte) obj).intValue();
+        else
+            value = Integer.valueOf(String.valueOf(obj));
+        return value;
+    }
+
+    public long wantLong(String key) {
+        Object obj = want(key);
+        long value = -1;
+        if (obj instanceof Integer)
+            value = ((Integer) obj).longValue();
+        else if (obj instanceof Long)
+            value = (Long) obj;
+        else if (obj instanceof BigInteger)
+            value = ((BigInteger) obj).longValue();
+        else if (obj instanceof Short)
+            value = ((Short) obj).longValue();
+        else if (obj instanceof Byte)
+            value = ((Byte) obj).longValue();
+        else
+            value = Long.valueOf(String.valueOf(obj));
+        return value;
+    }
+
+    public String wantString(String key) {
+        Object obj = want(key);
+        return String.valueOf(obj);
+    }
+
     //-----------------[ To Bytes Array Functions ]-------------------
     public byte[] toByteArray() throws IOException {
         MessagePayloadPacker packer = new MessagePayloadPacker();
