@@ -239,7 +239,7 @@ public class TCPClient {
             }
         };
 
-        standardCallback.setFuncationalAnswerCallback(callback);
+        standardCallback.setFunctionalAnswerCallback(callback);
         return sendQuest(quest, standardCallback, timeoutInSeconds);
     }
 
@@ -329,6 +329,7 @@ public class TCPClient {
             if (connection == null || hashCode != connection.hashCode())
                 return;
 
+            connection = null;
             status = ClientStatus.Closed;
             interLocker.notifyAll();
         }

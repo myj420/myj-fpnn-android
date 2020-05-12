@@ -31,7 +31,6 @@ public class MessagePayloadUnpacker {
         unpacker = MessagePack.newDefaultUnpacker(contents, offset, length);
     }
 
-
     private String checkCharset(byte[] bytes, String charsetName) throws CharacterCodingException {
         Charset charset = Charset.forName(charsetName);
         CharsetDecoder decoder = charset.newDecoder();
@@ -77,14 +76,12 @@ public class MessagePayloadUnpacker {
                     length = unpacker.unpackBinaryHeader();
                     byte[] binaryValue = new byte[length];
                     unpacker.readPayload(binaryValue);
-                    String str1 = "";
                     try {
-                        str1 = checkCharset(binaryValue,"utf-8");
+                        return checkCharset(binaryValue,"utf-8");
                     }
                     catch (CharacterCodingException e){
                         return binaryValue;
                     }
-                    return str1;
                 case ARRAY:
                     length = unpacker.unpackArrayHeader();
                     List arrayValue = new ArrayList(length);

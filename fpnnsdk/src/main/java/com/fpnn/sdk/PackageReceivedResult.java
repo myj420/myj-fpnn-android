@@ -17,7 +17,6 @@ import java.util.Map;
 public class PackageReceivedResult {
     public boolean success;
     public int errorCode;
-    public String method;
 
     private LinkedList<ByteBuffer> caches;
     private LinkedList<Answer> answerList;

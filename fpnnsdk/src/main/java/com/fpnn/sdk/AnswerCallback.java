@@ -39,7 +39,7 @@ public abstract class AnswerCallback {
         timeoutMilliseconds = System.currentTimeMillis() + timeoutInSeconds * 1000;
     }
 
-    void setFuncationalAnswerCallback(FunctionalAnswerCallback callback) {
+    void setFunctionalAnswerCallback(FunctionalAnswerCallback callback) {
         functionalCallback = callback;
     }
 
