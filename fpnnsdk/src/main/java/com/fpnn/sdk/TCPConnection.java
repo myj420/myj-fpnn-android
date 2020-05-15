@@ -32,6 +32,7 @@ class TCPConnection {
     private boolean connectedCallbackCalled;
     private ConnectionConnectedCallback connectedCallback;
     private ConnectionWillCloseCallback connectionWillCloseCallback;
+    private ConnectionHasClosedCallback connectionHasClosedCallback;
 
     //-- Server push / Java Reflect
     private Object questProcessor;
@@ -64,6 +65,7 @@ class TCPConnection {
 
         connectedCallback = null;
         connectionWillCloseCallback = null;
+        connectionHasClosedCallback = null;
 
         questProcessor = null;
         questProcessorName = null;
@@ -93,6 +95,10 @@ class TCPConnection {
 
     public void setWillCloseCallback(ConnectionWillCloseCallback cb) {
         connectionWillCloseCallback = cb;
+    }
+
+    public void setHasClosedCallback(ConnectionHasClosedCallback cb) {
+        connectionHasClosedCallback = cb;
     }
 
     public void setQuestProcessor(Object questProcessor, String questProcessorFullClassName) {
@@ -229,7 +235,7 @@ class TCPConnection {
 
         synchronized (this) {
             if (connectionClosed)
-                return;
+                succeed = false;
 
             connected = succeed;
             connectedCallbackCalled = true;
@@ -296,6 +302,9 @@ class TCPConnection {
         } catch (IOException e) {
             ErrorRecorder.record("Close channel exception. Channel: " + peerAddress.toString(), e);
         }
+
+        if (callCloseCallback && connectionHasClosedCallback != null)
+            connectionHasClosedCallback.connectionHasClosed(peerAddress, false);
     }
 
     private void processDisconnectedEvent(int errorCode) {
